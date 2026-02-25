@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>原神性格测试</title>
     <style>
         * {
@@ -17,16 +17,22 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            align-items: flex-start;
+            overflow-y: auto;
             position: relative;
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
 
         .particles {
-            position: absolute;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .particle {
@@ -61,6 +67,7 @@
             padding: 40px;
             width: 100%;
             max-width: 800px;
+            position: relative;
         }
 
         .title {
@@ -138,12 +145,14 @@
         }
 
         .decoration {
-            position: absolute;
+            position: fixed;
             width: 200px;
             height: 200px;
             border: 2px solid rgba(255, 215, 0, 0.2);
             border-radius: 50%;
             animation: rotate 20s linear infinite;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .decoration:nth-child(1) {
@@ -452,6 +461,141 @@
             }
             to {
                 opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+                overflow-y: auto;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .title {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 40px;
+            }
+
+            .start-btn {
+                padding: 14px 40px;
+                font-size: 1.1rem;
+            }
+
+            .quiz-container, .result-container {
+                padding: 25px 20px;
+            }
+
+            .question-text {
+                font-size: 1.2rem;
+                margin-bottom: 30px;
+            }
+
+            .option {
+                padding: 14px 18px;
+                font-size: 1rem;
+            }
+
+            .option-letter {
+                width: 26px;
+                height: 26px;
+                line-height: 26px;
+                margin-right: 12px;
+            }
+
+            .nav-btn {
+                padding: 12px 25px;
+                font-size: 0.95rem;
+            }
+
+            .result-type {
+                font-size: 1.2rem;
+                letter-spacing: 2px;
+            }
+
+            .result-character {
+                font-size: 2.5rem;
+            }
+
+            .result-score {
+                font-size: 1.1rem;
+                margin-bottom: 30px;
+            }
+
+            .result-score span {
+                font-size: 1.5rem;
+            }
+
+            .personality-analysis, .character-intro {
+                padding: 20px;
+                margin-bottom: 25px;
+            }
+
+            .personality-analysis-title, .character-intro-title {
+                font-size: 1.1rem;
+            }
+
+            .personality-analysis-text, .character-intro-text {
+                font-size: 1rem;
+                line-height: 1.7;
+            }
+
+            .toast {
+                padding: 25px 30px;
+                font-size: 1.1rem;
+                width: 85%;
+                max-width: 350px;
+            }
+
+            .toast-close {
+                padding: 8px 25px;
+                font-size: 0.95rem;
+            }
+
+            .decoration {
+                width: 120px;
+                height: 120px;
+            }
+
+            .decoration:nth-child(1) {
+                top: -60px;
+                left: -60px;
+            }
+
+            .decoration:nth-child(2) {
+                bottom: -60px;
+                right: -60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.6rem;
+            }
+
+            .result-character {
+                font-size: 2rem;
+            }
+
+            .option {
+                padding: 12px 15px;
+                font-size: 0.95rem;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .nav-btn {
+                width: 100%;
             }
         }
     </style>
