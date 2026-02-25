@@ -11,10 +11,10 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
             font-family: 'Microsoft YaHei', sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -463,10 +463,11 @@
         }
 
         @media (max-width: 768px) {
-            body {
+            html, body {
                 padding: 20px 10px;
                 overflow-y: auto;
                 align-items: flex-start;
+                height: auto;
                 min-height: 100vh;
             }
 
