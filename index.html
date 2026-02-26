@@ -230,13 +230,17 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-align: left;
             color: #e6e6fa;
             font-size: 1.1rem;
             min-height: 60px;
             display: flex;
-            align-items: center;
-            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+        
+        .option-content {
+            flex: 1;
+            margin-left: 15px;
+            line-height: 1.4;
         }
 
         .option:hover {
@@ -250,7 +254,7 @@
         }
 
         .option-letter {
-            display: inline-block;
+            display: flex;
             width: 30px;
             height: 30px;
             background: linear-gradient(135deg, #ffd700, #ff8c00);
@@ -259,7 +263,8 @@
             text-align: center;
             line-height: 30px;
             font-weight: bold;
-            margin-right: 15px;
+            justify-content: center;
+            align-items: center;
         }
 
         .nav-buttons {
@@ -510,8 +515,13 @@
                 font-size: 1.1rem;
                 min-height: 60px;
                 display: flex;
-                align-items: center;
-                flex-wrap: wrap;
+                align-items: flex-start;
+            }
+            
+            .option-content {
+                flex: 1;
+                margin-left: 15px;
+                line-height: 1.4;
             }
 
             .option-letter {
@@ -600,8 +610,13 @@
                 font-size: 1.1rem;
                 min-height: 60px;
                 display: flex;
-                align-items: center;
-                flex-wrap: wrap;
+                align-items: flex-start;
+            }
+            
+            .option-content {
+                flex: 1;
+                margin-left: 15px;
+                line-height: 1.4;
             }
         }
     </style>
@@ -1357,7 +1372,7 @@
                 if (answers[currentQuestion] === idx) {
                     optionDiv.classList.add('selected');
                 }
-                optionDiv.innerHTML = `<span class="option-letter">${letters[idx]}</span>${opt}`;
+                optionDiv.innerHTML = `<span class="option-letter">${letters[idx]}</span><div class="option-content">${opt}</div>`;
                 optionDiv.onclick = () => selectOption(idx);
                 optionsContainer.appendChild(optionDiv);
             });
