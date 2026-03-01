@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Microsoft YaHei', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #415a77 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -21,6 +21,21 @@
             overflow-y: auto;
             position: relative;
             padding: 20px;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 1;
         }
 
         body.centered {
@@ -75,25 +90,39 @@
 
         .title {
             font-size: 3rem;
-            color: #ffd700;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
-                         0 0 40px rgba(255, 215, 0, 0.3),
-                         0 4px 8px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
             margin-bottom: 20px;
             letter-spacing: 4px;
-            animation: glow 2s ease-in-out infinite alternate;
+            position: relative;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+        
+        .title::after {
+            content: '原神性格测试';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: blur(20px);
+            opacity: 0.5;
+            z-index: -1;
         }
 
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
-                             0 0 40px rgba(255, 215, 0, 0.3),
-                             0 4px 8px rgba(0, 0, 0, 0.5);
+        @keyframes titleGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
             }
-            to {
-                text-shadow: 0 0 30px rgba(255, 215, 0, 0.8),
-                             0 0 60px rgba(255, 215, 0, 0.5),
-                             0 4px 8px rgba(0, 0, 0, 0.5);
+            50% {
+                filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 60px rgba(255, 215, 0, 0.4));
             }
         }
 
@@ -188,25 +217,119 @@
         }
 
         .progress-bar {
-            height: 6px;
+            height: 8px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
+            border-radius: 4px;
             margin-bottom: 30px;
             overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #ffd700, #ff8c00);
-            border-radius: 3px;
+            background: linear-gradient(90deg, #ffd700, #ff8c00, #ffd700);
+            background-size: 200% 100%;
+            border-radius: 4px;
             transition: width 0.5s ease;
+            animation: shimmer 2s linear infinite;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .quiz-header {
+            margin-bottom: 20px;
         }
 
         .question-number {
-            color: #ffd700;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-size: 1.1rem;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .encouragement-text {
+            color: rgba(255, 215, 0, 0.8);
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .fun-tip {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .option-feedback {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #1a1a2e;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            z-index: 10;
+            animation: feedbackSlide 0.4s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+            white-space: nowrap;
+        }
+
+        @keyframes feedbackSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(-50%) translateX(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(-50%) translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes milestonePop {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
         }
 
         .question-text {
@@ -214,6 +337,7 @@
             font-size: 1.4rem;
             margin-bottom: 40px;
             line-height: 1.6;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
         .options {
@@ -224,10 +348,10 @@
         }
 
         .option {
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid transparent;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             padding: 18px 20px;
-            border-radius: 12px;
+            border-radius: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: left;
@@ -238,30 +362,51 @@
             align-items: center;
             width: 100%;
             max-width: 100%;
+            position: relative;
+            overflow: visible;
+        }
+        
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: left 0.5s ease;
         }
 
         .option:hover {
-            background: rgba(147, 51, 234, 0.15);
-            border-color: rgba(147, 51, 234, 0.4);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0.05) 100%);
+            border-color: rgba(255, 215, 0, 0.5);
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+        }
+        
+        .option:hover::before {
+            left: 100%;
         }
 
         .option.selected {
-            background: rgba(147, 51, 234, 0.25);
-            border-color: #8b5cf6;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.25) 0%, rgba(255, 215, 0, 0.1) 100%);
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), inset 0 0 10px rgba(255, 215, 0, 0.1);
         }
 
         .option-letter {
             display: inline-block;
             width: 36px;
             height: 36px;
-            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-            color: #fff;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #1a1a2e;
             border-radius: 50%;
             text-align: center;
             line-height: 36px;
             font-weight: bold;
             margin-right: 15px;
             flex-shrink: 0;
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.4);
         }
 
         .nav-buttons {
@@ -271,8 +416,8 @@
         }
 
         .nav-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 2px solid rgba(255, 215, 0, 0.4);
             padding: 14px 40px;
             font-size: 1rem;
             font-weight: bold;
@@ -281,11 +426,30 @@
             border-radius: 25px;
             transition: all 0.3s ease;
             flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: left 0.5s ease;
         }
 
         .nav-btn:hover:not(:disabled) {
-            background: rgba(255, 215, 0, 0.2);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 215, 0, 0.1) 100%);
             border-color: #ffd700;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        .nav-btn:hover:not(:disabled)::before {
+            left: 100%;
         }
 
         .nav-btn:disabled {
@@ -297,36 +461,73 @@
             background: linear-gradient(135deg, #ffd700, #ff8c00);
             border-color: transparent;
             color: #1a1a2e;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
         }
 
         .nav-btn.primary:hover:not(:disabled) {
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
         }
 
         .result-container {
             display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 24px;
             padding: 50px 40px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.1);
+        }
+        
+        .result-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
         }
 
         .result-type {
             font-size: 1.5rem;
-            color: #ffd700;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 20px;
             letter-spacing: 3px;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
         }
 
         .result-character {
             font-size: 3.5rem;
-            color: #fff;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+            background: linear-gradient(135deg, #fff 0%, #ffd700 50%, #ff8c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 30px;
             font-weight: bold;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+            animation: characterGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes characterGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+            }
+            50% {
+                filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8));
+            }
         }
 
         .character-image {
@@ -352,17 +553,33 @@
         }
 
         .personality-analysis {
-            background: rgba(255, 215, 0, 0.08);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            border-radius: 20px;
             padding: 30px;
             margin-bottom: 30px;
             text-align: left;
             line-height: 1.8;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.1), inset 0 0 20px rgba(255, 215, 0, 0.05);
+        }
+        
+        .personality-analysis::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
         }
 
         .personality-analysis-title {
-            color: #ffd700;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-size: 1.3rem;
             font-weight: bold;
             margin-bottom: 15px;
@@ -372,20 +589,37 @@
         .personality-analysis-text {
             color: #e6e6fa;
             font-size: 1.1rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
 
         .character-intro {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
             padding: 30px;
             margin-bottom: 40px;
             text-align: left;
             line-height: 1.8;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .character-intro::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.6), transparent);
         }
 
         .character-intro-title {
-            color: #ffd700;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-size: 1.3rem;
             font-weight: bold;
             margin-bottom: 15px;
@@ -608,6 +842,22 @@
                 width: 100%;
                 max-width: 100%;
             }
+
+            .encouragement-text {
+                font-size: 0.8rem;
+            }
+
+            .fun-tip {
+                font-size: 0.75rem;
+                padding: 8px;
+                margin-top: 15px;
+            }
+
+            .option-feedback {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+                right: 10px;
+            }
         }
     </style>
 </head>
@@ -631,16 +881,20 @@
         </div>
 
         <div id="quiz-screen" class="quiz-container">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
+            <div class="quiz-header">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="question-number" id="question-number"></div>
+                <div class="encouragement-text" id="encouragement-text"></div>
             </div>
-            <div class="question-number" id="question-number"></div>
             <div class="question-text" id="question-text"></div>
             <div class="options" id="options"></div>
             <div class="nav-buttons">
                 <button class="nav-btn" id="prev-btn" onclick="prevQuestion()">上一题</button>
                 <button class="nav-btn primary" id="next-btn" onclick="nextQuestion()">下一题</button>
             </div>
+            <div class="fun-tip" id="fun-tip"></div>
         </div>
 
         <div id="result-screen" class="result-container">
@@ -1344,13 +1598,57 @@
         function startSurvey() {
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('quiz-screen').style.display = 'block';
+            lastMilestone = 0; // 重置里程碑记录
             showQuestion();
         }
+
+        const encouragements = [
+            "相信自己的直觉，旅行者！",
+            "每个选择都代表着真实的你~",
+            "继续探索内心的世界吧！",
+            "你的性格正在逐渐显现...",
+            "跟着心走，答案就在那里！",
+            "每一次选择都是自我发现！",
+            "保持真实，做最好的自己！",
+            "冒险的旅程还在继续！",
+            "你的独特之处正在发光！",
+            "相信自己，你比想象中更强大！"
+        ];
+
+        const funTips = [
+            "💡 小知识：提瓦特大陆有七个国家，每个国家都有独特的文化和风景！",
+            "💡 小知识：元素之力是提瓦特世界的核心，七种元素相互制约又相互融合！",
+            "💡 小知识：神之眼是神明赐予的宝物，代表着持有者的愿望和意志！",
+            "💡 小知识：每个角色都有自己的故事和背景，等待着你去发现！",
+            "💡 小知识：旅行者，你的选择将决定你在提瓦特的命运！",
+            "💡 小知识：不同的性格类型对应着不同的元素亲和度哦！",
+            "💡 小知识：在提瓦特，每个灵魂都是独一无二的星辰！",
+            "💡 小知识：你的性格特质可能与某位角色的元素属性相似！",
+            "💡 小知识：冒险家协会欢迎所有类型的旅行者加入！",
+            "💡 小知识：在蒙德，自由是最重要的品质；在璃月，契约是永恒的信仰！"
+        ];
+
+        const optionFeedbacks = [
+            "不错的选择！",
+            "很有见地！",
+            "这个答案很有趣！",
+            "深思熟虑的决定！",
+            "独特的视角！",
+            "充满智慧的选择！"
+        ];
 
         function showQuestion() {
             const q = questions[currentQuestion];
             document.getElementById('question-number').textContent = `第 ${currentQuestion + 1}/${questions.length} 题`;
             document.getElementById('question-text').textContent = q.text;
+            
+            // 显示鼓励语句
+            const encouragementText = document.getElementById('encouragement-text');
+            encouragementText.textContent = encouragements[currentQuestion % encouragements.length];
+            
+            // 显示趣味提示
+            const funTip = document.getElementById('fun-tip');
+            funTip.textContent = funTips[currentQuestion % funTips.length];
             
             const optionsContainer = document.getElementById('options');
             optionsContainer.innerHTML = '';
@@ -1377,6 +1675,41 @@
             options.forEach((opt, i) => {
                 opt.classList.toggle('selected', i === idx);
             });
+            
+            // 显示答题反馈
+            showOptionFeedback(idx);
+            
+            // 添加选中动画效果
+            options[idx].style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                options[idx].style.transform = '';
+            }, 150);
+        }
+        
+        function showOptionFeedback(selectedIdx) {
+            // 移除之前的反馈
+            const existingFeedback = document.querySelectorAll('.option-feedback');
+            existingFeedback.forEach(el => el.remove());
+            
+            // 获取选中的选项元素
+            const options = document.querySelectorAll('.option');
+            const selectedOption = options[selectedIdx];
+            if (!selectedOption) return;
+            
+            // 创建新的反馈，显示在选中的选项内部
+            const feedback = document.createElement('div');
+            feedback.className = 'option-feedback';
+            feedback.textContent = optionFeedbacks[Math.floor(Math.random() * optionFeedbacks.length)];
+            selectedOption.appendChild(feedback);
+            
+            // 1.5秒后移除反馈
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.style.opacity = '0';
+                    feedback.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => feedback.remove(), 300);
+                }
+            }, 1500);
         }
 
         function prevQuestion() {
@@ -1414,6 +1747,52 @@
         function updateProgress() {
             const progress = ((currentQuestion + 1) / questions.length) * 100;
             document.getElementById('progress-fill').style.width = progress + '%';
+            
+            // 进度里程碑提示
+            const milestones = [25, 50, 75, 100];
+            const milestoneMessages = {
+                25: "🎉 已完成25%！继续加油，旅行者！",
+                50: "🎉 已经完成一半了！你的性格画像越来越清晰了！",
+                75: "🎉 75%完成！再坚持一下就能看到结果了！",
+                100: "🎉 全部完成！准备揭晓你的原神角色吧！"
+            };
+            
+            const currentProgress = Math.round(progress);
+            if (milestones.includes(currentProgress) && currentProgress > 0) {
+                showMilestoneToast(milestoneMessages[currentProgress]);
+            }
+        }
+        
+        let lastMilestone = 0;
+        function showMilestoneToast(message) {
+            const progress = Math.round(((currentQuestion + 1) / questions.length) * 100);
+            if (progress === lastMilestone) return;
+            lastMilestone = progress;
+            
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, rgba(255, 215, 0, 0.95), rgba(255, 140, 0, 0.95));
+                color: #1a1a2e;
+                padding: 20px 40px;
+                border-radius: 15px;
+                font-weight: bold;
+                font-size: 1.2rem;
+                z-index: 2000;
+                animation: milestonePop 0.5s ease;
+                box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+                text-align: center;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'fadeIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
         }
 
         function updateButtons() {
@@ -1441,15 +1820,13 @@
             "达达利亚": "愚人众十一执行官末席，代号公子。他性格好战，喜欢挑战强者，但同时也非常重视家人，是一个复杂而迷人的角色。",
             "安柏": "西风骑士团的侦察骑士，性格活泼开朗，充满活力。她热爱自由，喜欢冒险，是蒙德最优秀的侦察骑士之一。",
             "香菱": "万民堂的小厨娘，对烹饪有着无比的热情。她性格开朗乐观，勇于尝试各种食材，梦想是做出世界上最美味的菜肴。",
-            "迪卢克": "晨曦酒庄的庄主，曾经的西风骑士团骑兵队长。他性格冷峻，内心却充满正义感，以自己的方式守护着蒙德。",
+            "迪卢克": "晨曦酒庄的庄主，曾经的西风骑士团骑兵队长。他性格沉稳内敛，行事果断，以独特的方式守护着蒙德的安宁。表面冷峻，实则心怀正义，是一位值得信赖的守护者。",
             "枫原万叶": "来自稻妻的浪人武士，性格温和洒脱。他热爱自然，喜欢诗歌，有着独特的审美观和人生态度。",
             "神里绫华": "神里家的大小姐，稻妻三奉行之一。她外表端庄优雅，内心却温柔善良，一直默默守护着稻妻的人民。",
             "甘雨": "璃月七星的秘书，半仙之身。她性格温和，工作认真负责，数千年来一直默默陪伴着璃月的成长。",
             "纳西妲": "须弥的草神，智慧之神。虽然外表年幼，但却拥有着超越常人的智慧和慈悲心，是一位非常值得尊敬的神明。",
             "芭芭拉": "西风教会的祈礼牧师，同时也是蒙德的偶像。她性格温柔善良，用歌声治愈人们的心灵，是蒙德最受欢迎的少女之一。",
             "瑶瑶": "璃月港的可爱少女，香菱的小师妹。她天真烂漫，温柔善良，总是用自己的方式关心着身边的每一个人。",
-            "行秋": "璃月古华派的弟子，同时也是飞云商会的二少爷。他性格儒雅，喜欢读书，但同时也有着行侠仗义的一面。",
-            "重云": "璃月的方士，出身于驱邪世家。他性格正直，拥有纯阳之体，一直在寻找着克制自己体质的方法。",
             "芙宁娜": "枫丹的水神，曾经的芙卡洛斯。她外表高傲，内心却柔软善良，为了枫丹的人民做出了巨大的牺牲。",
             "魈": "璃月的三眼五显仙人，夜叉之一。他外表冷峻，内心却温柔，数千年一直默默守护着璃月，是一位令人敬佩的存在。",
             "雷电将军": "稻妻的雷神，永恒的守护者。她性格威严，为了追求永恒而实行锁国，但在与旅行者相遇后逐渐改变了想法。",
@@ -1457,7 +1834,22 @@
             "琳妮特": "枫丹的魔术师助手，菲米尼的姐姐。她性格冷静，寡言少语，但实际上非常关心家人，是一位可靠的伙伴。",
             "菲谢尔": "自称断罪之皇女的少女，性格有些中二。她虽然外表傲娇，但内心善良，与奥兹有着深厚的羁绊。",
             "罗莎莉亚": "西风教会的修女，性格冷淡疏离。她虽然表面上对什么都不关心，但实际上一直在用自己的方式守护着蒙德。",
-            "莫娜": "占星术士，自称阿斯托洛吉斯·莫娜·梅姬斯图斯。她虽然生活清贫，但对占星术有着极高的造诣，是一位非常有个性的少女。"
+            "莫娜": "占星术士，自称阿斯托洛吉斯·莫娜·梅姬斯图斯。她虽然生活清贫，但对占星术有着极高的造诣，是一位非常有个性的少女。",
+            "提纳里": "须弥道成林的巡林官，也是柯莱的师父。他性格沉稳，知识渊博，对植物学有着深入的研究，是一位值得信赖的学者。",
+            "赛诺": "须弥的大风纪官，以公正严明著称。他性格认真，对规则有着严格的遵守，虽然有时显得过于严肃，但内心充满正义感。",
+            "班尼特": "蒙德冒险家协会的成员，被称为'倒霉蛋'。他性格乐观开朗，永不放弃，即使总是遭遇不幸，依然保持着积极向上的心态。",
+            "托马": "神里家的家政官，来自蒙德。他性格热情开朗，善于交际，在稻妻有着广泛的人脉，是一位非常可靠的伙伴。",
+            "辛焱": "璃月的摇滚乐手，以热烈的演出风格闻名。她性格豪爽直率，热爱音乐，用摇滚表达着自己的态度和热情。",
+            "云堇": "璃月戏曲名角，以精湛的表演技艺闻名。她性格温和有礼，对传统文化有着深厚的热爱，是璃月文化的传承者。",
+            "雷泽": "生活在奔狼领的少年，与狼群一同成长。他性格单纯直接，虽然不善言辞，但对朋友非常忠诚，有着野兽般的直觉。",
+            "珊瑚宫心海": "海祇岛的现人神巫女，珊瑚宫家的家主。她性格温柔智慧，善于谋略，以独特的方式守护着海祇岛的人民。",
+            "诺艾尔": "西风骑士团的女仆，梦想成为正式的骑士。她性格温柔勤劳，总是默默地为他人付出，是蒙德最受信赖的人之一。",
+            "七七": "不卜庐的采药姑娘，僵尸之身。她性格单纯可爱，虽然记忆力不好，但总是认真地完成每一件事，让人忍不住想要保护。",
+            "早柚": "终末番的忍者，隶属于社奉行。她性格慵懒，喜欢睡觉和偷懒，但在关键时刻却能展现出优秀的忍者能力。",
+            "米卡": "西风骑士团的前进测绘员，游击小队成员。他性格内向害羞，但在测绘和记录方面有着出色的才能，是一位可靠的伙伴。",
+            "申鹤": "留云借风真君的弟子，出身于驱邪世家。她性格清冷疏离，不谙世事，但内心单纯善良，一直在学习如何与人相处。",
+            "流浪者": "曾经的愚人众第六席散兵，现以流浪者的身份游历世间。他性格孤傲，有着复杂的过去，但正在寻找属于自己的人生道路。",
+            "莱依拉": "梨多梵谛学院的学生，专攻理论星相学。她性格内向害羞，容易失眠，但在学术上有着极高的天赋和造诣。"
         };
 
         const personalityAnalyses = {
@@ -1468,10 +1860,10 @@
         };
 
         const charactersByType = {
-            "理智稳重型": ["钟离", "艾尔海森", "那维莱特", "刻晴", "夜兰", "琴", "阿贝多", "凝光"],
-            "阳光热血型": ["胡桃", "荒泷一斗", "宵宫", "达达利亚", "安柏", "香菱", "迪卢克", "枫原万叶"],
-            "温柔治愈型": ["神里绫华", "甘雨", "纳西妲", "芭芭拉", "瑶瑶", "行秋", "重云", "芙宁娜"],
-            "清冷独立型": ["魈", "枫原万叶", "雷电将军", "八重神子", "琳妮特", "菲谢尔", "罗莎莉亚", "莫娜"]
+            "理智稳重型": ["钟离", "艾尔海森", "那维莱特", "刻晴", "夜兰", "琴", "阿贝多", "凝光", "迪卢克", "提纳里", "赛诺"],
+            "阳光热血型": ["胡桃", "荒泷一斗", "宵宫", "达达利亚", "安柏", "香菱", "班尼特", "托马", "辛焱", "云堇", "雷泽"],
+            "温柔治愈型": ["神里绫华", "甘雨", "纳西妲", "芭芭拉", "瑶瑶", "芙宁娜", "珊瑚宫心海", "诺艾尔", "七七", "早柚", "米卡"],
+            "清冷独立型": ["魈", "枫原万叶", "雷电将军", "八重神子", "琳妮特", "菲谢尔", "罗莎莉亚", "莫娜", "申鹤", "流浪者", "莱依拉"]
         };
 
         const typeMapping = {
