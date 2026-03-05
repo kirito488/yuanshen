@@ -735,6 +735,78 @@
             font-size: 1.1rem;
         }
 
+        .character-traits {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 140, 0, 0.04) 100%);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .character-traits::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.6), transparent);
+        }
+
+        .character-traits-title {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .trait-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .trait-label {
+            width: 80px;
+            color: #e6e6fa;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .trait-bar-container {
+            flex: 1;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 0 10px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .trait-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ff8c00);
+            border-radius: 8px;
+            transition: width 1s ease-out;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .trait-value {
+            width: 45px;
+            color: #ffd700;
+            font-weight: bold;
+            text-align: right;
+            font-size: 1rem;
+        }
+
         .restart-btn {
             background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
             border: none;
@@ -2002,6 +2074,53 @@
             "莱依拉": "梨多梵谛学院的学生，专攻理论星相学。她性格内向害羞，容易失眠，但在学术上有着极高的天赋和造诣。"
         };
 
+        const characterTraits = {
+            "钟离": { "智慧": 95, "稳重": 100, "领导力": 90, "亲和力": 75, "战斗力": 95 },
+            "艾尔海森": { "智慧": 100, "稳重": 85, "领导力": 80, "亲和力": 70, "战斗力": 85 },
+            "那维莱特": { "智慧": 95, "稳重": 95, "领导力": 95, "亲和力": 80, "战斗力": 95 },
+            "刻晴": { "智慧": 90, "稳重": 85, "领导力": 85, "亲和力": 75, "战斗力": 85 },
+            "夜兰": { "智慧": 95, "稳重": 80, "领导力": 85, "亲和力": 70, "战斗力": 90 },
+            "琴": { "智慧": 85, "稳重": 90, "领导力": 90, "亲和力": 85, "战斗力": 85 },
+            "阿贝多": { "智慧": 100, "稳重": 85, "领导力": 75, "亲和力": 75, "战斗力": 80 },
+            "凝光": { "智慧": 95, "稳重": 85, "领导力": 90, "亲和力": 70, "战斗力": 80 },
+            "迪卢克": { "智慧": 85, "稳重": 90, "领导力": 85, "亲和力": 65, "战斗力": 90 },
+            "提纳里": { "智慧": 95, "稳重": 85, "领导力": 80, "亲和力": 80, "战斗力": 75 },
+            "赛诺": { "智慧": 90, "稳重": 85, "领导力": 85, "亲和力": 70, "战斗力": 90 },
+            "胡桃": { "智慧": 80, "活力": 95, "亲和力": 90, "创造力": 95, "战斗力": 85 },
+            "荒泷一斗": { "智慧": 60, "活力": 100, "亲和力": 85, "创造力": 70, "战斗力": 90 },
+            "宵宫": { "智慧": 75, "活力": 95, "亲和力": 95, "创造力": 90, "战斗力": 80 },
+            "达达利亚": { "智慧": 80, "活力": 90, "亲和力": 80, "创造力": 75, "战斗力": 95 },
+            "安柏": { "智慧": 70, "活力": 95, "亲和力": 90, "创造力": 80, "战斗力": 75 },
+            "香菱": { "智慧": 75, "活力": 95, "亲和力": 90, "创造力": 95, "战斗力": 70 },
+            "班尼特": { "智慧": 65, "活力": 90, "亲和力": 95, "创造力": 70, "战斗力": 75 },
+            "托马": { "智慧": 80, "活力": 85, "亲和力": 95, "创造力": 75, "战斗力": 80 },
+            "辛焱": { "智慧": 70, "活力": 90, "亲和力": 85, "创造力": 90, "战斗力": 75 },
+            "云堇": { "智慧": 85, "活力": 80, "亲和力": 90, "创造力": 95, "战斗力": 70 },
+            "雷泽": { "智慧": 60, "活力": 85, "亲和力": 80, "创造力": 65, "战斗力": 85 },
+            "神里绫华": { "智慧": 85, "温柔": 95, "亲和力": 90, "治愈力": 90, "战斗力": 85 },
+            "甘雨": { "智慧": 90, "温柔": 95, "亲和力": 85, "治愈力": 85, "战斗力": 80 },
+            "纳西妲": { "智慧": 100, "温柔": 95, "亲和力": 90, "治愈力": 95, "战斗力": 75 },
+            "芭芭拉": { "智慧": 75, "温柔": 95, "亲和力": 95, "治愈力": 95, "战斗力": 60 },
+            "瑶瑶": { "智慧": 70, "温柔": 95, "亲和力": 95, "治愈力": 90, "战斗力": 65 },
+            "芙宁娜": { "智慧": 85, "温柔": 90, "亲和力": 85, "治愈力": 90, "战斗力": 80 },
+            "珊瑚宫心海": { "智慧": 90, "温柔": 90, "亲和力": 85, "治愈力": 90, "战斗力": 80 },
+            "诺艾尔": { "智慧": 75, "温柔": 95, "亲和力": 90, "治愈力": 85, "战斗力": 75 },
+            "七七": { "智慧": 60, "温柔": 95, "亲和力": 90, "治愈力": 95, "战斗力": 65 },
+            "早柚": { "智慧": 70, "温柔": 85, "亲和力": 85, "治愈力": 80, "战斗力": 70 },
+            "米卡": { "智慧": 80, "温柔": 85, "亲和力": 85, "治愈力": 80, "战斗力": 70 },
+            "魈": { "智慧": 80, "独立": 95, "亲和力": 60, "战斗力": 100, "神秘感": 90 },
+            "枫原万叶": { "智慧": 85, "独立": 90, "亲和力": 80, "战斗力": 85, "神秘感": 85 },
+            "雷电将军": { "智慧": 90, "独立": 95, "亲和力": 65, "战斗力": 100, "神秘感": 90 },
+            "八重神子": { "智慧": 95, "独立": 90, "亲和力": 75, "战斗力": 85, "神秘感": 95 },
+            "琳妮特": { "智慧": 80, "独立": 90, "亲和力": 70, "战斗力": 75, "神秘感": 85 },
+            "菲谢尔": { "智慧": 75, "独立": 85, "亲和力": 75, "战斗力": 75, "神秘感": 90 },
+            "罗莎莉亚": { "智慧": 80, "独立": 90, "亲和力": 65, "战斗力": 80, "神秘感": 85 },
+            "莫娜": { "智慧": 95, "独立": 85, "亲和力": 70, "战斗力": 75, "神秘感": 90 },
+            "申鹤": { "智慧": 80, "独立": 95, "亲和力": 60, "战斗力": 90, "神秘感": 90 },
+            "流浪者": { "智慧": 85, "独立": 95, "亲和力": 65, "战斗力": 90, "神秘感": 95 },
+            "莱依拉": { "智慧": 90, "独立": 80, "亲和力": 75, "战斗力": 70, "神秘感": 85 }
+        };
+
         const personalityAnalyses = {
             "理智稳重型": "你是一个理性、稳重、值得信赖的人。你做事有条理，善于分析和规划，凡事讲求逻辑和原则。在团队中，你往往是那个能稳住大局、做出正确决策的人。你追求效率和成果，对自己和他人都有较高的要求，但同时也懂得尊重规则和他人的感受。",
             "阳光热血型": "你是一个热情、开朗、充满活力的人。你热爱生活，喜欢冒险和挑战，总是能给周围的人带来快乐和正能量。你重情义、讲义气，对朋友真诚坦率，愿意为了在意的人挺身而出。你追求自由和快乐，相信活在当下，享受每一个精彩的瞬间。",
@@ -2064,6 +2183,43 @@
                 <div class="character-intro-title">角色介绍</div>
                 <div class="character-intro-text">${intro}</div>
             `;
+            
+            // 生成角色特质条形图
+            const traits = characterTraits[character] || { "智慧": 50, "亲和力": 50, "战斗力": 50 };
+            
+            const traitsHTML = `
+                <div class="character-traits-title">角色特质</div>
+                ${Object.entries(traits).map(([trait, value]) => `
+                    <div class="trait-item">
+                        <span class="trait-label">${trait}</span>
+                        <div class="trait-bar-container">
+                            <div class="trait-bar" style="width: 0%"></div>
+                        </div>
+                        <span class="trait-value">${value}%</span>
+                    </div>
+                `).join('')}
+            `;
+            
+            const traitsContainer = document.createElement('div');
+            traitsContainer.className = 'character-traits';
+            traitsContainer.innerHTML = traitsHTML;
+            
+            const resultScreen = document.getElementById('result-screen');
+            if (resultScreen) {
+                resultScreen.appendChild(traitsContainer);
+            }
+            
+            // 动画效果
+            setTimeout(() => {
+                const traitBars = document.querySelectorAll('.trait-bar');
+                traitBars.forEach((bar, index) => {
+                    const traitName = Object.keys(traits)[index];
+                    const value = traits[traitName];
+                    setTimeout(() => {
+                        bar.style.width = value + '%';
+                    }, index * 100);
+                });
+            }, 100);
         }
 
         function restartSurvey() {
